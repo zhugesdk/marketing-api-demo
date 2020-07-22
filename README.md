@@ -1155,11 +1155,11 @@ AB测试单元可以按照指定的概率，将用户路由到指定的目标单
 ```json
 {
   "name": "unit_1",
-  "type": "sms",  // 类型固定为sms
+  "type": "sms",
   "args": {
-    "channel": "diexin",  // 渠道类型
-    "tplId": "tplId",  // 短信模板ID
-    "tplArgs": [  // 短信模板参数，数组，由文本和用户属性组成
+    "channel": "diexin",
+    "tplId": "tplId",
+    "tplArgs": [
       "text1",
       {
         "propertyType": "official",
@@ -1396,9 +1396,9 @@ AB测试单元可以按照指定的概率，将用户路由到指定的目标单
       "name": "unitSendSMS",
       "type": "sms",
       "args": {
-        "channel": "diexin",  // 渠道类型
-    		"tplId": "tplId",  // 短信模板ID
-    		"tplArgs": [  // 短信模板参数，数组，由文本和用户属性组成
+        "channel": "diexin",
+    		"tplId": "tplId",
+    		"tplArgs": [
       		"text1",
       		{
         		"propertyName": "zg_id"
@@ -1462,3 +1462,126 @@ AB测试单元可以按照指定的概率，将用户路由到指定的目标单
 }
 ```
 
+## API Demo
+
+我们通过上述API，很容易就利用Python编写了一个命令行版的智能触达工具。工具源码位于本项目的`api_demo.py`文件中。您可以借鉴此工具的代码，来使用API完成您的任务。
+
+运行该Demo的先决条件：
+
+* Python >= 3.5
+
+* 安装相关Python依赖：
+
+  * `pip3 install click`
+  * `pip3 install requirements`
+
+* 根据自己的环境，以环境变量的方式设置API访问地址和用户名密码：
+
+  ```shell
+  export ANALYZE_API_URL="http://localhost:8081"  # 分析API base url
+  export MARKETING_API_URL="http://localhost:8081"  # 触达API base url
+
+  export ZHUGE_API_USERNAME="sam"  # API用户名
+  export ZHUGE_API_PASSWORD="xxxxxxxxxxxx"  # 密码
+  ```
+
+接下来就可以使用了。
+
+直接运行，可以查看拥有哪些功能模块：
+
+```
+[root@realtime-3 logs]# python3 ./api_demo.py
+Usage: api_demo.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  continue-activity         恢复已经暂停的活动
+  create-auto-activity      创建自动活动示例
+  create-manual-activity    创建手动活动示例
+  delete-activity           删除指定活动
+  get-activity-list         根据类型查询活动列表
+  get-all-groups            获取分析平台人群列表
+  get-all-webhook-channels  获取所有webhook类型渠道配置
+  pause-activity            暂停活动执行
+  query-user-records        查询活动的用户洞察记录
+  view-activity             查看活动详情
+```
+
+通过`--help`查看功能的命令行选项：
+
+```shell
+[root@realtime-3 logs]# python3 ./api_demo.py create-auto-activity --help
+Usage: api_demo.py create-auto-activity [OPTIONS]
+
+  创建自动活动示例
+
+Options:
+  --app_id INTEGER            应用ID  [required]
+  --name TEXT                 活动名称  [required]
+  --trigger_event_name TEXT   触发事件名称  [required]
+  --channel_id INTEGER        渠道ID  [required]
+  --channel_params_json TEXT  渠道参数JSON描述  [required]
+  --sleep_time_expr TEXT      触发后的休眠时间  [required]
+  --target_event_name TEXT    目标事件名称  [required]
+  --timeout_expr TEXT         超时时间表达式  [required]
+  --creator TEXT              创建者账号  [required]
+  --begin_time TEXT           活动开始时间
+  --end_time TEXT             活动结束时间
+  --help                      Show this message and exit.
+```
+
+查看当前有哪些人群，需要把`--app_id`替换为自己的应用ID：
+
+```shell
+python3 ./api_demo.py get-all-groups --app_id 20000318
+```
+
+查看当前的webhook渠道配置：
+
+```shell
+python3 ./api_demo.py get-all-webhook-channels --app_id 20000318
+```
+
+创建一个自动活动，需要把其中的参数，根据自己的平台进行替换：
+
+```shell
+python3 ./api_demo.py create-auto-activity --app_id 20000318 --name test_auto --trigger_event_name 22 --channel_id 1 --channel_params_json '{"name": ["aaaaa"]}' --sleep_time_expr "1 minutes" --target_event_name 44 --timeout_expr "5 minutes" --creator zhuge@zhugeio.com
+```
+
+刷新智能触达的产品的页面，应该就可以看见新创建的活动了。
+
+查看活动详情：
+
+```shell
+python3 ./api_demo.py view-activity --activity_id 100
+```
+
+暂停活动：
+
+```shell
+python3 ./api_demo.py pause-activity --activity_id 100
+```
+
+恢复活动：
+
+```shell
+python3 ./api_demo.py continue-activity --activity_id 100
+```
+
+删除活动：
+
+```shell
+python3 ./api_demo.py delete-activity --activity_id 100
+```
+
+查看指定应用的自动活动列表：
+
+```shell
+python3 ./api_demo.py get-activity-list --app_id 20000318 --activity_type auto
+```
+
+**一点技巧**
+
+通过json的方式来编写活动定义，肯定不如使用图形界面来创建活动定义方便。如果我们需要通过API来创建活动，可以先通过图形界面创建一个大致类似的，然后再通过API获取其json定义，再在此基础之上对定义进行修改。这样往往会更加方便一些，也不容易出错。
