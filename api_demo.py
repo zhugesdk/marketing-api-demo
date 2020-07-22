@@ -1,4 +1,4 @@
-"""基于智能触达2.0API，周期性创建活动
+"""基于智能触达2.0API，命令行Demo
 """
 import os
 import json
