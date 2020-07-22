@@ -918,7 +918,7 @@ Content-Type: application/json;charset=utf-8
 
 用户属性比较单元的定义需要分两种情况进行讨论。第一种是独立的用户属性比较单元，单元之中的属性是并且关系。
 
-<img src="独立用户属性比较.jpg"/>
+<img src="images/独立用户属性比较.jpg"/>
 
 ```json
 {
@@ -963,7 +963,7 @@ Content-Type: application/json;charset=utf-8
 
 并列的用户属性比较单元，单元与单元之间是或者关系，从左到右，最左边的单元匹配优先。
 
-<img src="并列用户属性比较.jpg"/>
+<img src="images/并列用户属性比较.jpg"/>
 
 单元定义：
 
@@ -1550,7 +1550,7 @@ python3 ./api_demo.py get-all-webhook-channels --app_id 20000318
 python3 ./api_demo.py create-auto-activity --app_id 20000318 --name test_auto --trigger_event_name 22 --channel_id 1 --channel_params_json '{"name": ["aaaaa"]}' --sleep_time_expr "1 minutes" --target_event_name 44 --timeout_expr "5 minutes" --creator zhuge@zhugeio.com
 ```
 
-刷新智能触达的产品的页面，应该就可以看见新创建的活动了。
+刷新智能触达的产品页面，应该就可以看见新创建的活动了。
 
 查看活动详情：
 
