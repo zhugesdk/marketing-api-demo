@@ -691,6 +691,153 @@ Content-Type: application/json;charset=utf-8
     * propertyName 属性名称
     * propertyValue 属性值
 
+## 渠道管理
+
+### 获取指定类型的渠道配置
+
+```
+[GET] /market/api/v2/postman/channel/<APP_ID>/<CHANNEL_TYPE>
+```
+
+URL参数：
+
+* `APP_ID` 应用ID
+* `CHANNEL_TYPE` 渠道类型 sms push webhook weixin
+
+```json
+{
+    "code": 200,
+    "msg": "成功",
+    "data": {
+        "configs": {
+            "user_properties_webhook": {
+                "295c4dc2-62a8-4cd0-82fd-65e5be368ae2": {
+                    "updated_on": "2020-07-20 10:58:38",
+                    "created_on": "2020-06-17 16:22:29",
+                    "enable": true,
+                    "channel": "user_properties_webhook",
+                    "name": "295c4dc2-62a8-4cd0-82fd-65e5be368ae2",
+                    "id": 1,
+                    "channel_type": "webhook",
+                    "display_name": "测试webhook",
+                    "app_id": 20000318,
+                    "config": {
+                        "send_type": "other",
+                        "params": [
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "test",
+                                "display_name": "test"
+                            }
+                        ],
+                        "url": "http://realtime-3:1930/webhook"
+                    }
+                },
+                "8ab5c5fd-284f-423b-8939-617e1fe487b3": {
+                    "updated_on": "2020-07-16 17:00:07",
+                    "created_on": "2020-07-14 16:09:55",
+                    "enable": true,
+                    "channel": "user_properties_webhook",
+                    "name": "8ab5c5fd-284f-423b-8939-617e1fe487b3",
+                    "id": 40,
+                    "channel_type": "webhook",
+                    "display_name": "测试webhook2",
+                    "app_id": 20000318,
+                    "config": {
+                        "send_type": "other",
+                        "params": [
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "h",
+                                "display_name": "h"
+                            },
+                            {
+                                "extend": {
+                                    "type": "int"
+                                },
+                                "name": "i",
+                                "display_name": "i"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "a",
+                                "display_name": "a"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "c",
+                                "display_name": "c"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "d",
+                                "display_name": "d"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "b",
+                                "display_name": "b"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "e",
+                                "display_name": "e"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "f",
+                                "display_name": "f"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "g",
+                                "display_name": "g"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "j",
+                                "display_name": "j"
+                            },
+                            {
+                                "extend": {
+                                    "type": "str"
+                                },
+                                "name": "k",
+                                "display_name": "k"
+                            }
+                        ],
+                        "url": "http://realtime-3:1930/webhook"
+                    }
+                }
+            }
+        }
+    },
+    "success": true
+}
+```
+
+其中需要重点关注的是，每个渠道的id，这个需要在活动定义时被引用。
+
 ## 活动定义
 
 ### 整体格式
